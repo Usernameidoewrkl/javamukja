@@ -4,6 +4,9 @@ Spring Framework MVC 패턴으로 만들었고 사용한 데이터베이스는 O
 
 
 [JAVAMUKJA Project 기초 테이블]
+
+
+
 DROP TABLE member CASCADE CONSTRAINTS;
 DROP TABLE grade CASCADE CONSTRAINTS;
 DROP TABLE recipe CASCADE CONSTRAINTS;
