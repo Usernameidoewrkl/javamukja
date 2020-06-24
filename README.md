@@ -3,8 +3,7 @@
 Spring Framework MVC 패턴으로 만들었고 사용한 데이터베이스는 Oracle DB 입니다.
 
 
-[JAVAMUKJA Project 기초 테이블]
-
+[JAVAMUKJA Project 기초 테이블(Oracle)]
 
 
 DROP TABLE member CASCADE CONSTRAINTS;
@@ -155,6 +154,36 @@ values('chef', '셰프', '1234', 'man.jpg', 'chef@chef.com4', '셰프',
 insert into member(id, mname, passwd, fname, email, nickname, address, zipcode, grade)
 values('user1', '홍길동', '1234', 'man.jpg', 'user1@user1.com', '홍길동',
 '서울시 종로구', '101-123', 'N');
+
+[JAVAMUKJA Project 기초 테이블(Mysql)]
+
+
+
+
+DROP TABLE member CASCADE CONSTRAINTS; DROP TABLE grade CASCADE CONSTRAINTS; DROP TABLE recipe CASCADE CONSTRAINTS; DROP TABLE find CASCADE CONSTRAINTS; DROP TABLE notice CASCADE CONSTRAINTS; DROP TABLE talk CASCADE CONSTRAINTS; DROP TABLE gradereply CASCADE CONSTRAINTS; DROP TABLE recipereply CASCADE CONSTRAINTS; DROP TABLE talkreply CASCADE CONSTRAINTS; select * from tab;
+ 
+CREATE TABLE member ( id varchar(20) NOT NULL, mname varchar(20) NOT NULL, passwd varchar(20) NOT NULL, fname varchar(50) NOT NULL, email varchar(50) NOT NULL, nickname varchar(20) NOT NULL, grade CHAR(1) DEFAULT 'N' NOT NULL CHECK (grade IN ('A', 'C', 'N')), address varchar(150) NULL, zipcode varchar(7) NULL, PRIMARY KEY (id) );
+
+CREATE TABLE grade ( gno int(7) NOT NULL, id varchar(20) NOT NULL, title varchar(100) NOT NULL, content varchar(4000) NOT NULL, rdate date NOT NULL, PRIMARY KEY (gno), FOREIGN KEY (id) REFERENCES member(id));
+
+CREATE TABLE gradereply ( grno int(7) NOT NULL, id varchar(20) NOT NULL, gno int(7) NOT NULL, rdate date NOT NULL, content varchar(2000) NOT NULL, PRIMARY KEY (grno), FOREIGN KEY (id) REFERENCES member(id), FOREIGN KEY (gno) REFERENCES grade(gno) );
+
+CREATE TABLE find ( fno int(7) NOT NULL, fstr varchar(60) NOT NULL, fcnt int(5) DEFAULT 0 NOT NULL, fdate date NOT NULL, PRIMARY KEY (fno) );
+
+CREATE TABLE recipe ( rno int(7) NOT NULL, id varchar(20) NOT NULL, title varchar(100) NOT NULL, content varchar(4000) NOT NULL, viewcnt int(5) DEFAULT 0 NOT NULL, rcnt int(5) DEFAULT 0 NOT NULL, fname varchar(50) NULL, category varchar(50) NOT NULL, time varchar(20) NOT NULL, portion varchar(20) NOT NULL, ingredient varchar(1000) NOT NULL, rdate date NOT NULL, PRIMARY KEY (rno), FOREIGN KEY (id) REFERENCES member(id));
+
+CREATE TABLE recipereply ( rrno int(7) NOT NULL, id varchar(20) NOT NULL, rno int(7) NOT NULL, rdate DATE NOT NULL, content varchar(2000) NOT NULL, PRIMARY KEY (rrno), FOREIGN KEY (id) REFERENCES member(id), FOREIGN KEY (rno) REFERENCES recipe(rno));
+
+CREATE TABLE notice ( nno int(7) DEFAULT 0 NOT NULL, id varchar(20) NOT NULL, title varchar(100) NOT NULL, content varchar(4000) NOT NULL, viewcnt int(5) DEFAULT 0 NOT NULL, category varchar(50) NOT NULL, rdate date NOT NULL, PRIMARY KEY (nno), FOREIGN KEY (id) REFERENCES member(id));
+
+CREATE TABLE talk ( tno int(7) NOT NULL, id varchar(20) NOT NULL, title varchar(100) NOT NULL, content varchar(4000) NOT NULL, viewcnt int(5) DEFAULT 0 NOT NULL, rcnt int(5) DEFAULT 0 NOT NULL, fname varchar(50) NULL, hashtag varchar(100) NOT NULL, category varchar(50) NOT NULL, rdate DATE NOT NULL, PRIMARY KEY (tno), FOREIGN KEY (id) REFERENCES member(id));
+
+CREATE TABLE talkreply ( trno int(7) NOT NULL, id varchar(20) NOT NULL, tno int(7) NOT NULL, rdate date NOT NULL, content varchar(2000) NOT NULL, PRIMARY KEY (trno), FOREIGN KEY (id) REFERENCES member(id), FOREIGN KEY (tno) REFERENCES talk(tno));
+
+-- 회원정보 기초 데이터
+insert into member(id, mname, passwd, fname, email, nickname, address, zipcode, grade) values('admin', '관리자', '1234', 'man.jpg', 'admin@admin.com', '관리자', '서울시 종로구', '101-123', 'A');
+insert into member(id, mname, passwd, fname, email, nickname, address, zipcode, grade) values('chef', '셰프', '1234', 'man.jpg', 'chef@chef.com4', '셰프', '서울시 종로구', '101-123', 'C');
+insert into member(id, mname, passwd, fname, email, nickname, address, zipcode, grade) values('user1', '홍길동', '1234', 'man.jpg', 'user1@user1.com', '홍길동', '서울시 종로구', '101-123', 'N');
 
 
 
